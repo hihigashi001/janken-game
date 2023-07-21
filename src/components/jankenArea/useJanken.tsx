@@ -75,7 +75,7 @@ const buttonStore = create<{ button: ButtonProps }>(() => ({
         const players = result.players;
         const stringPlayers = players.map((p) => p.playerName).join(", ");
         messageStore.setState({
-          message: { ...infoMessage, children: `${winner}の勝ち 勝者：${stringPlayers}` },
+          message: { ...infoMessage, winner: winner, children: `の勝ち 勝者：${stringPlayers}` },
         });
       }
     },

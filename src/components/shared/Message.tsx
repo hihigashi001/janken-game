@@ -1,8 +1,10 @@
 import cc from "classcat";
+import { RoundValue } from "./RoundValue";
 
 export type MessageProps = {
   children: React.ReactNode;
   variant?: "standard" | "warning";
+  winner?: "Rock" | "Paper" | "Scissors";
 };
 
 export const Message = (props: MessageProps) => {
@@ -14,5 +16,11 @@ export const Message = (props: MessageProps) => {
       "text-dark-red": variant === "warning",
     },
   ]);
-  return <div className={classNames}>{props.children}</div>;
+
+  return (
+    <div className="flex items-center justify-center">
+      {props.winner && <RoundValue value={props.winner} />}
+      <div className={classNames}>{props.children}</div>
+    </div>
+  );
 };

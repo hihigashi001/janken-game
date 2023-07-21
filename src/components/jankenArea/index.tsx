@@ -26,7 +26,7 @@ const Index = () => {
             />
           ))}
         </PlayerSelectWrapper>
-        <Message variant={message.variant}>{message.children}</Message>
+        <Message winner={message.winner} variant={message.variant}>{message.children}</Message>
         <Button onClick={button.onClick} disabled={button.disabled}>
           {button.children}
         </Button>

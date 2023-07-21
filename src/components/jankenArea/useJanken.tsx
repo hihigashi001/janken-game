@@ -57,30 +57,44 @@ const infoMessage: MessageProps = {
   variant: "standard",
 };
 
+const initButton: ButtonProps = {
+  children: "じゃんけんポン",
+  onClick: () => {
+    const playerSelect = statusStore.getState().playerSelect;
+    const newPlayerSelect = playerSelect.map((p) => {
+      return { ...p, isButton: false };
+    });
+    statusStore.setState({ playerSelect: newPlayerSelect });
+    const result = getRockPaperScissorsResult(playerSelect);
+    if (result === "Draw") {
+      messageStore.setState({ message: { ...infoMessage, children: "あいこでした" } });
+    } else {
+      const winner = result.winner;
+      const players = result.players;
+      const stringPlayers = players.map((p) => p.playerName).join(", ");
+      messageStore.setState({
+        message: { ...infoMessage, winner: winner, children: `の勝ち 勝者：${stringPlayers}` },
+      });
+    }
+    buttonStore.setState({
+      button: {
+        children: "もう一度やる",
+        onClick: () => resetState()
+      }
+    })
+  },
+  disabled: true,
+}
+
+const resetState = () => {
+  statusStore.setState(initialValues)
+  buttonStore.setState({ button: initButton })
+  messageStore.setState({ message: warningMessage })
+}
+
 const statusStore = create<Store>(() => initialValues);
 const buttonStore = create<{ button: ButtonProps }>(() => ({
-  button: {
-    children: "じゃんけんポン",
-    onClick: () => {
-      const playerSelect = statusStore.getState().playerSelect;
-      const newPlayerSelect = playerSelect.map((p) => {
-        return { ...p, isButton: false };
-      });
-      statusStore.setState({ playerSelect: newPlayerSelect });
-      const result = getRockPaperScissorsResult(playerSelect);
-      if (result === "Draw") {
-        messageStore.setState({ message: { ...infoMessage, children: "あいこでした" } });
-      } else {
-        const winner = result.winner;
-        const players = result.players;
-        const stringPlayers = players.map((p) => p.playerName).join(", ");
-        messageStore.setState({
-          message: { ...infoMessage, winner: winner, children: `の勝ち 勝者：${stringPlayers}` },
-        });
-      }
-    },
-    disabled: true,
-  },
+  button: initButton,
 }));
 const messageStore = create<{ message: MessageProps }>(() => ({
   message: warningMessage,

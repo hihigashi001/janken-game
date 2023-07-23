@@ -1,7 +1,7 @@
-import Area from "@/components/jankenArea";
+import Create from "@/components/createPage";
 
 const index = () => {
-  return <Area />;
+  return <Create />;
 };
 
 export default index;

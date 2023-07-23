@@ -21,7 +21,7 @@ type Handlers = {
   selectValue: (value: "Rock" | "Paper" | "Scissors") => void;
 };
 
-type Result = { winner: "Rock" | "Paper" | "Scissors"; players: PlayerSelect[] } | "Draw";
+type Result = { winner: "Rock" | "Paper" | "Scissors" } | "Draw";
 
 const initialValues: Store = {
   playerSelect: [
@@ -70,10 +70,8 @@ const initButton: ButtonProps = {
       messageStore.setState({ message: { ...infoMessage, children: "あいこでした" } });
     } else {
       const winner = result.winner;
-      const players = result.players;
-      const stringPlayers = players.map((p) => p.playerName).join(", ");
       messageStore.setState({
-        message: { ...infoMessage, winner: winner, children: `の勝ち 勝者：${stringPlayers}` },
+        message: { ...infoMessage, winner: winner, children: "の勝ち" },
       });
     }
     buttonStore.setState({
@@ -148,21 +146,13 @@ function getRockPaperScissorsResult(playerSelect: PlayerSelect[]): Result {
     Scissors: 0,
   };
 
-  const players: Record<string, PlayerSelect[]> = {
-    Rock: [],
-    Paper: [],
-    Scissors: [],
-  };
-
   for (const player of playerSelect) {
     const choice = player.selectedValue;
 
     if (!choice) {
       throw new Error(`Player ${player.playerName} didn't make a choice`);
     }
-
     counts[choice]++;
-    players[choice].push(player);
   }
 
   const choices = ["Rock", "Paper", "Scissors"].filter((choice) => counts[choice] > 0);
@@ -172,10 +162,10 @@ function getRockPaperScissorsResult(playerSelect: PlayerSelect[]): Result {
   }
 
   if (choices.includes("Rock") && choices.includes("Scissors")) {
-    return { winner: "Rock", players: players.Rock };
+    return { winner: "Rock" };
   } else if (choices.includes("Scissors") && choices.includes("Paper")) {
-    return { winner: "Scissors", players: players.Scissors };
+    return { winner: "Scissors" };
   } else {
-    return { winner: "Paper", players: players.Paper };
+    return { winner: "Paper" };
   }
 }

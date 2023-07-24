@@ -4,6 +4,8 @@ import { Input } from "@/components/shared/Input";
 import { Select, SelectProps } from "@/components/shared/Select";
 import { Button } from "../shared/Button";
 
+import { addJankenSpace, createdAt } from "@/lib/apiClient";
+
 const options: SelectProps["options"] = [
   { value: "2", label: "2人" },
   { value: "3", label: "3人" },
@@ -16,6 +18,29 @@ const options: SelectProps["options"] = [
 ];
 
 const CreatePage = () => {
+  const mockData = {
+      title: "testタイトル",
+      playerValues: [
+        {
+          playerId: 1,
+          playerName: "player1",
+        },
+        {
+          playerId: 2,
+          playerName: "player2",
+        },
+        {
+          playerId: 3,
+          playerName: "player3",
+        }
+      ],
+      createdAt: createdAt(),
+  }
+
+  const handleCreate = async () => {
+    const res = await addJankenSpace(mockData);
+    console.log(res);
+  }
   return (
     <div className="flex flex-col gap-4 p-4">
       <Title>じゃんけんサイト</Title>
@@ -44,7 +69,7 @@ const CreatePage = () => {
           <span>参加人数</span>
           <Select options={options}/>
         </div>
-        <Button onClick={() => {}}>じゃんけん会場を作成する</Button>
+        <Button onClick={handleCreate}>じゃんけん会場を作成する</Button>
       </Wrapper>
     </div>
   );

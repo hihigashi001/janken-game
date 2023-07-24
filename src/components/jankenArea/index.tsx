@@ -7,12 +7,18 @@ import { PlayerSelectWrapper } from "./PlayerSelectWrapper";
 import { useJanken } from "./useJanken";
 import { SelectModal } from "./SelectModal";
 
-const Index = () => {
-  const { title, message, playerSelect, button, modalState } = useJanken();
+type Props = {
+  pageId: string | string[] | undefined;
+};
+
+const Index = ({ pageId }: Props) => {
+  const { title, message, playerSelect, button, modalState, handlers } = useJanken({ pageId });
 
   return (
     <>
-      {modalState.isOpen && <SelectModal />}
+      {modalState.isOpen && (
+        <SelectModal playerSelect={playerSelect} modalState={modalState} handlers={handlers} />
+      )}
       <Wrapper>
         <Title>{title}</Title>
         <PlayerSelectWrapper>
@@ -26,7 +32,9 @@ const Index = () => {
             />
           ))}
         </PlayerSelectWrapper>
-        <Message winner={message.winner} variant={message.variant}>{message.children}</Message>
+        <Message winner={message.winner} variant={message.variant}>
+          {message.children}
+        </Message>
         <Button onClick={button.onClick} disabled={button.disabled}>
           {button.children}
         </Button>

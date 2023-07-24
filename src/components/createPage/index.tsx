@@ -3,8 +3,7 @@ import { Wrapper } from "@/components/shared/Wrapper";
 import { Input } from "@/components/shared/Input";
 import { Select, SelectProps } from "@/components/shared/Select";
 import { Button } from "../shared/Button";
-
-import { addJankenSpace, createdAt } from "@/lib/apiClient";
+import { useCreateJankenSpace } from "./useCreateJankenSpace";
 
 const options: SelectProps["options"] = [
   { value: "2", label: "2人" },
@@ -14,33 +13,12 @@ const options: SelectProps["options"] = [
   { value: "6", label: "6人" },
   { value: "7", label: "7人" },
   { value: "8", label: "8人" },
-  { value: "9", label: "9人" }
+  { value: "9", label: "9人" },
 ];
 
 const CreatePage = () => {
-  const mockData = {
-      title: "testタイトル",
-      playerValues: [
-        {
-          playerId: 1,
-          playerName: "player1",
-        },
-        {
-          playerId: 2,
-          playerName: "player2",
-        },
-        {
-          playerId: 3,
-          playerName: "player3",
-        }
-      ],
-      createdAt: createdAt(),
-  }
+  const { title, playerCount, handlers } = useCreateJankenSpace();
 
-  const handleCreate = async () => {
-    const res = await addJankenSpace(mockData);
-    console.log(res);
-  }
   return (
     <div className="flex flex-col gap-4 p-4">
       <Title>じゃんけんサイト</Title>
@@ -63,13 +41,13 @@ const CreatePage = () => {
         <Title>じゃんけん会場作成</Title>
         <div>
           <span>会場名</span>
-          <Input onChange={() => {}} />
+          <Input value={title} onChange={(e) => handlers.handleTitleChange(e.target.value)} />
         </div>
         <div>
           <span>参加人数</span>
-          <Select options={options}/>
+          <Select value={playerCount} options={options} onChange={(e) => handlers.handlePlayerCountChange(e.target.value)}/>
         </div>
-        <Button onClick={handleCreate}>じゃんけん会場を作成する</Button>
+        <Button onClick={handlers.handleCreate}>じゃんけん会場を作成する</Button>
       </Wrapper>
     </div>
   );

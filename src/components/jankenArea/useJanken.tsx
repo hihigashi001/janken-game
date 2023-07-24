@@ -2,13 +2,20 @@ import { ButtonProps } from "@/components/shared/Button";
 import { MessageProps } from "@/components/shared/Message";
 import { PlayerSelectProps } from "./PlayerSelect";
 import { create } from "zustand";
+import useSWR from "swr";
+import { getJankenSpace } from "@/lib/apiClient";
+import { useEffect } from "react";
+
+type Props = {
+  pageId?: string | string[] | undefined;
+};
 
 type ModalState = {
   isOpen: boolean;
   playerId: number;
 };
 
-type PlayerSelect = PlayerSelectProps & { playerId: number };
+export type PlayerSelect = PlayerSelectProps & { playerId: number };
 
 type Store = {
   playerSelect: PlayerSelect[];
@@ -77,18 +84,18 @@ const initButton: ButtonProps = {
     buttonStore.setState({
       button: {
         children: "もう一度やる",
-        onClick: () => resetState()
-      }
-    })
+        onClick: () => resetState(),
+      },
+    });
   },
   disabled: true,
-}
+};
 
 const resetState = () => {
-  statusStore.setState(initialValues)
-  buttonStore.setState({ button: initButton })
-  messageStore.setState({ message: warningMessage })
-}
+  statusStore.setState(initialValues);
+  buttonStore.setState({ button: initButton });
+  messageStore.setState({ message: warningMessage });
+};
 
 const statusStore = create<Store>(() => initialValues);
 const buttonStore = create<{ button: ButtonProps }>(() => ({
@@ -98,11 +105,28 @@ const messageStore = create<{ message: MessageProps }>(() => ({
   message: warningMessage,
 }));
 
-export const useJanken = () => {
+export const useJanken = ({ pageId }: Props) => {
   const { playerSelect, modalState } = statusStore();
+  const { data, error, mutate } = useSWR(pageId, getJankenSpace);
+
+  useEffect(() => {
+    if (data) {
+      const gameData = data.playerValues.map((p) => {
+        return {
+          playerId: p.playerId,
+          playerName: p.playerName,
+          onClick: () => statusStore.setState({ modalState: { isOpen: true, playerId: p.playerId } }),
+          isButton: true,
+        };
+      });
+      statusStore.setState({ playerSelect: gameData })
+    }
+  }, [data])
+
+
   const { button } = buttonStore();
   const { message } = messageStore();
-  const title = "じゃんけん";
+  const title = data?.title || "じゃんけん広場";
 
   const handlers: Handlers = {
     modalClose: () => {

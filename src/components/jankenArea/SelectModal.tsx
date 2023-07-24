@@ -4,11 +4,24 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/shared/Button";
 import { Title } from "@/components/shared/Title";
 import { Input } from "@/components/shared/Input";
-import { useJanken } from "./useJanken";
 
-export const SelectModal = () => {
+import { PlayerSelect } from "./useJanken"
+
+type SelectModalProps = {
+  handlers: {
+    modalClose: () => void;
+    playerNameChange: (value: string) => void;
+    selectValue: (value: "Rock" | "Paper" | "Scissors") => void;
+  };
+  modalState: {
+    isOpen: boolean;
+    playerId: number;
+  };
+  playerSelect: PlayerSelect[];
+};
+
+export const SelectModal = ({ playerSelect, modalState, handlers }: SelectModalProps) => {
   const [playerName, setPlayerName] = useState("");
-  const { playerSelect, modalState, handlers } = useJanken();
 
   const player = playerSelect.find((p) => p.playerId === modalState.playerId);
 

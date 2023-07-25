@@ -3,7 +3,7 @@ import { MessageProps } from "@/components/shared/Message";
 import { PlayerSelectProps } from "./PlayerSelect";
 import { create } from "zustand";
 import useSWR from "swr";
-import { getJankenSpace } from "@/lib/apiClient";
+import { getJankenSpace, updateJankenSpace, createdAt } from "@/lib/apiClient";
 import { useEffect } from "react";
 
 type Props = {
@@ -23,6 +23,7 @@ type Store = {
 };
 
 type Handlers = {
+  updateValue: () => void;
   modalClose: () => void;
   playerNameChange: (value: string) => void;
   selectValue: (value: "Rock" | "Paper" | "Scissors") => void;
@@ -36,18 +37,21 @@ const initialValues: Store = {
       playerId: 1,
       playerName: "playerName1",
       onClick: () => statusStore.setState({ modalState: { isOpen: true, playerId: 1 } }),
+      selectedValue: null,
       isButton: true,
     },
     {
       playerId: 2,
       playerName: "playerName2",
       onClick: () => statusStore.setState({ modalState: { isOpen: true, playerId: 2 } }),
+      selectedValue: null,
       isButton: true,
     },
     {
       playerId: 3,
       playerName: "playerName3",
       onClick: () => statusStore.setState({ modalState: { isOpen: true, playerId: 3 } }),
+      selectedValue: null,
       isButton: true,
     },
   ],
@@ -115,20 +119,37 @@ export const useJanken = ({ pageId }: Props) => {
         return {
           playerId: p.playerId,
           playerName: p.playerName,
-          onClick: () => statusStore.setState({ modalState: { isOpen: true, playerId: p.playerId } }),
-          isButton: true,
+          onClick: () =>
+            statusStore.setState({ modalState: { isOpen: true, playerId: p.playerId } }),
+          selectedValue: p.selectedValue,
+          isButton: p.isButton,
         };
       });
-      statusStore.setState({ playerSelect: gameData })
+      statusStore.setState({ playerSelect: gameData });
     }
-  }, [data])
-
+  }, [data]);
 
   const { button } = buttonStore();
   const { message } = messageStore();
   const title = data?.title || "じゃんけん広場";
 
   const handlers: Handlers = {
+    updateValue: () => {
+      const updateData = {
+        title: data?.title || "",
+        playerValues: playerSelect.map((p) => ({
+          playerId: p.playerId,
+          playerName: p.playerName,
+          selectedValue: p.selectedValue,
+          isButton: p.isButton || true,
+        })),
+        createdAt: data?.createdAt || createdAt(),
+      };
+      if (typeof pageId === "string") {
+        updateJankenSpace(pageId, updateData);
+      }
+      mutate();
+    },
     modalClose: () => {
       statusStore.setState({ modalState: { isOpen: false, playerId: 0 } });
     },
@@ -147,14 +168,31 @@ export const useJanken = ({ pageId }: Props) => {
     selectValue: (value) => {
       const playerId = modalState.playerId;
       const playerSelect = statusStore.getState().playerSelect;
-      const newPlayerSelect = playerSelect.map((p) => {
-        if (p.playerId === playerId) {
-          return { ...p, selectedValue: value };
-        } else {
-          return p;
-        }
-      });
-      statusStore.setState({ playerSelect: newPlayerSelect });
+      const updateData = {
+        title: data?.title || "",
+        playerValues: playerSelect.map((p) => {
+          if (p.playerId === playerId) {
+            return {
+              playerId: p.playerId,
+              playerName: p.playerName,
+              selectedValue: value,
+              isButton: p.isButton || true,
+            };
+          } else {
+            return {
+              playerId: p.playerId,
+              playerName: p.playerName,
+              selectedValue: p.selectedValue,
+              isButton: p.isButton || true,
+            };
+          }
+        }),
+        createdAt: data?.createdAt || createdAt(),
+      };
+      if (typeof pageId === "string") {
+        updateJankenSpace(pageId, updateData);
+      }
+      mutate();
       buttonStore.setState({ button: { ...button, disabled: false } });
       messageStore.setState({ message: infoMessage });
     },

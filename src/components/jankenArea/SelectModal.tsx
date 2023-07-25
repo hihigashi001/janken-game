@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 import { Button } from "@/components/shared/Button";
 import { Title } from "@/components/shared/Title";
@@ -9,6 +8,7 @@ import { PlayerSelect } from "./useJanken"
 
 type SelectModalProps = {
   handlers: {
+    updateValue: () => void;
     modalClose: () => void;
     playerNameChange: (value: string) => void;
     selectValue: (value: "Rock" | "Paper" | "Scissors") => void;
@@ -21,23 +21,15 @@ type SelectModalProps = {
 };
 
 export const SelectModal = ({ playerSelect, modalState, handlers }: SelectModalProps) => {
-  const [playerName, setPlayerName] = useState("");
-
-  const player = playerSelect.find((p) => p.playerId === modalState.playerId);
-
-  useEffect(() => {
-    setPlayerName(player?.playerName ?? "");
-  }, [player]);
+  const playerName = playerSelect.find((p) => p.playerId === modalState.playerId)?.playerName ?? "";
 
   const handlePlayerNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPlayerName(e.target.value);
+    handlers.playerNameChange(e.target.value);
   };
 
   const handleImageClick = (value: "Rock" | "Paper" | "Scissors") => {
     handlers.modalClose();
     handlers.selectValue(value);
-    handlers.playerNameChange(playerName);
-    setPlayerName("");
   };
 
   const handleAiSelect = () => {
@@ -45,13 +37,11 @@ export const SelectModal = ({ playerSelect, modalState, handlers }: SelectModalP
     const value = ["Rock", "Paper", "Scissors"][random] as "Rock" | "Paper" | "Scissors";
     handlers.modalClose();
     handlers.selectValue(value);
-    handlers.playerNameChange(playerName);
-    setPlayerName("");
   };
 
   const handlePrevClick = () => {
+    handlers.updateValue();
     handlers.modalClose();
-    setPlayerName("");
   };
 
   return (

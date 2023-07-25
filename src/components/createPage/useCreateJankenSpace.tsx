@@ -31,6 +31,8 @@ export const useCreateJankenSpace = () => {
         playerValues: Array.from({ length: Number(playerCount) }).map((_, i) => ({
           playerId: i + 1,
           playerName: `playerName${i + 1}`,
+          selectedValue: null,
+          isButton: true,
         })),
         createdAt: createdAt(),
       };

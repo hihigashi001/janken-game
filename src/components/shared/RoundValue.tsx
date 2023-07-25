@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 type Props = {
-  value?: "Rock" | "Paper" | "Scissors";
+  value?: "Rock" | "Paper" | "Scissors" | null;
 };
 
 export const RoundValue = (props: Props) => {

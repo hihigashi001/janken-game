@@ -1,24 +1,8 @@
 import Image from "next/image";
-
 import { Button } from "@/components/shared/Button";
 import { Title } from "@/components/shared/Title";
 import { Input } from "@/components/shared/Input";
-
-import { PlayerSelect } from "./useJanken"
-
-type SelectModalProps = {
-  handlers: {
-    updateValue: () => void;
-    modalClose: () => void;
-    playerNameChange: (value: string) => void;
-    selectValue: (value: "Rock" | "Paper" | "Scissors") => void;
-  };
-  modalState: {
-    isOpen: boolean;
-    playerId: number;
-  };
-  playerSelect: PlayerSelect[];
-};
+import { SelectModalProps } from "@/types";
 
 export const SelectModal = ({ playerSelect, modalState, handlers }: SelectModalProps) => {
   const playerName = playerSelect.find((p) => p.playerId === modalState.playerId)?.playerName ?? "";

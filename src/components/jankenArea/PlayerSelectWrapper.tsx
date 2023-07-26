@@ -1,7 +1,5 @@
-type Props = {
-  children: React.ReactNode;
-};
+import { PlayerSelectWrapperProps } from "@/types";
 
-export const PlayerSelectWrapper = (props: Props) => {
+export const PlayerSelectWrapper = (props: PlayerSelectWrapperProps) => {
   return <div className="flex flex-col gap-2">{props.children}</div>;
 };

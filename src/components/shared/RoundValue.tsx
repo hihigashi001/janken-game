@@ -1,10 +1,7 @@
 import Image from "next/image";
+import { RoundValueProps } from "@/types";
 
-type Props = {
-  value?: "Rock" | "Paper" | "Scissors" | null;
-};
-
-export const RoundValue = (props: Props) => {
+export const RoundValue = (props: RoundValueProps) => {
   if (props.value === "Rock")
     return <Image src="/images/Rock.png" width={72} height={72} alt="value rock" />;
   if (props.value === "Scissors")

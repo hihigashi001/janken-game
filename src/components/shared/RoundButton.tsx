@@ -1,13 +1,7 @@
 import cc from "classcat";
+import { RoundButtonProps } from "@/types";
 
-type Props = {
-  className?: string;
-  onClick: () => void;
-  variant?: "filled" | "outlined";
-  disabled?: boolean;
-};
-
-export const RoundButton = (props: Props) => {
+export const RoundButton = (props: RoundButtonProps) => {
   const variant = props.variant ?? "outlined";
   const disabled = props.disabled ?? false;
   const buttonText = disabled ? "選択済" : "選択";

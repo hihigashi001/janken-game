@@ -1,9 +1,10 @@
 import { Title } from "@/components/shared/Title";
 import { Wrapper } from "@/components/shared/Wrapper";
 import { Input } from "@/components/shared/Input";
-import { Select, SelectProps } from "@/components/shared/Select";
-import { Button } from "../shared/Button";
-import { useCreateJankenSpace } from "./useCreateJankenSpace";
+import { Select } from "@/components/shared/Select";
+import { Button } from "@/components/shared/Button";
+import { useCreateJankenSpace } from "@/hooks/useCreateJankenSpace";
+import { SelectProps } from "@/types";
 
 const options: SelectProps["options"] = [
   { value: "2", label: "2人" },
@@ -45,7 +46,11 @@ const CreatePage = () => {
         </div>
         <div>
           <span>参加人数</span>
-          <Select value={playerCount} options={options} onChange={(e) => handlers.handlePlayerCountChange(e.target.value)}/>
+          <Select
+            value={playerCount}
+            options={options}
+            onChange={(e) => handlers.handlePlayerCountChange(e.target.value)}
+          />
         </div>
         <Button onClick={handlers.handleCreate}>じゃんけん会場を作成する</Button>
       </Wrapper>

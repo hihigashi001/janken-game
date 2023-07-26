@@ -1,17 +1,15 @@
 import { Title } from "@/components/shared/Title";
 import { Wrapper } from "@/components/shared/Wrapper";
 import { Button } from "@/components/shared/Button";
-import { Message } from "../shared/Message";
+import { Message } from "@/components/shared/Message";
+import { useJanken } from "@/hooks/useJanken";
+import { JankenAreaIndexProps } from "@/types";
+
 import { PlayerSelect } from "./PlayerSelect";
 import { PlayerSelectWrapper } from "./PlayerSelectWrapper";
-import { useJanken } from "./useJanken";
 import { SelectModal } from "./SelectModal";
 
-type Props = {
-  pageId: string | string[] | undefined;
-};
-
-const Index = ({ pageId }: Props) => {
+const Index = ({ pageId }: JankenAreaIndexProps) => {
   const { title, message, playerSelect, button, modalState, handlers } = useJanken({ pageId });
 
   return (

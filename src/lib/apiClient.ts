@@ -1,22 +1,10 @@
 import firebase from "firebase/compat/app";
 import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { StoreData } from "@/types";
 import { db } from "./firebase";
 
 const now = new Date();
 export const createdAt = () => firebase.firestore.Timestamp.fromDate(now);
-
-type playerValues = {
-  playerId: number;
-  playerName: string;
-  selectedValue: "Rock" | "Paper" | "Scissors" | null;
-  isButton: boolean;
-};
-
-export type StoreData = {
-  title: string;
-  playerValues: playerValues[];
-  createdAt: firebase.firestore.Timestamp;
-};
 
 export const addJankenSpace = async (data: StoreData) => {
   try {

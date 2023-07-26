@@ -1,12 +1,5 @@
 import cc from "classcat";
-
-export type ButtonProps = {
-  children: React.ReactNode;
-  className?: string;
-  onClick: () => void;
-  variant?: "primary" | "secondary";
-  disabled?: boolean;
-};
+import { ButtonProps } from "@/types";
 
 export const Button = (props: ButtonProps) => {
   const variant = props.variant ?? "primary";

@@ -1,11 +1,6 @@
 import cc from "classcat";
+import { MessageProps } from "@/types";
 import { RoundValue } from "./RoundValue";
-
-export type MessageProps = {
-  children: React.ReactNode;
-  variant?: "standard" | "warning";
-  winner?: "Rock" | "Paper" | "Scissors";
-};
 
 export const Message = (props: MessageProps) => {
   const variant = props.variant ?? "standard";

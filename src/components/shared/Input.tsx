@@ -1,7 +1,4 @@
-type InputProps = {
-  value?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+import { InputProps } from "@/types";
 
 export const Input = (props: InputProps) => {
   return (

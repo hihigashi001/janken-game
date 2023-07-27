@@ -50,7 +50,7 @@ export const useJanken = ({ pageId }: useCreateJankenSpaceProps) => {
   const title = data?.title || "じゃんけん広場";
 
   useEffect(() => {
-    if (data) {
+    if (data && modalState.isOpen === false) {
       const gameData = data.playerValues.map((p) => {
         return {
           playerId: p.playerId,
@@ -63,10 +63,10 @@ export const useJanken = ({ pageId }: useCreateJankenSpaceProps) => {
       });
       statusStore.setState({ playerSelect: gameData });
     }
-  }, [data]);
+  }, [data, modalState.isOpen]);
 
   useEffect(() => {
-    if (data) {
+    if (data && modalState.isOpen === false) {
       const buttonStatus = data?.gameStatus === "result";
       if (buttonStatus) {
         const playerSelect = statusStore.getState().playerSelect;
@@ -145,7 +145,7 @@ export const useJanken = ({ pageId }: useCreateJankenSpaceProps) => {
         });
       }
     }
-  }, [data, playerSelect, pageId, mutate]);
+  }, [data, playerSelect, pageId, mutate, modalState.isOpen]);
 
   const handlers: useJankenHandlers = {
     updateValue: () => {

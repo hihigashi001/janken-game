@@ -22,15 +22,14 @@ const CreatePage = () => {
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <Title>じゃんけんサイト</Title>
       <div className="flex flex-col gap-2">
-        <h3>サイト説明</h3>
+        <h2>サイト説明</h2>
         <p>
           このサイトはオンラインでじゃんけんをするためのサイトです。誰でも簡単に無料でご利用頂けます。
         </p>
       </div>
       <div className="flex flex-col gap-2">
-        <h3>利用方法</h3>
+        <h2>利用方法</h2>
         <ol className="list-decimal list-outside ml-4 space-y-2">
           <li>以下のフォームを入力してじゃんけん会場を作成する</li>
           <li>作成されたじゃんけん会場のURLをメールやSNS等で共有する</li>

@@ -93,6 +93,10 @@ export type WrapperProps = {
   children: React.ReactNode;
 };
 
+export type LayoutProps = {
+  children: React.ReactNode;
+};
+
 // hooks Props
 
 export type useJankenStore = {

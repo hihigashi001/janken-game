@@ -45,7 +45,7 @@ export const useJanken = ({ pageId }: useCreateJankenSpaceProps) => {
   const { playerSelect, modalState } = statusStore();
   const { button } = buttonStore();
   const { message } = messageStore();
-  const { data, mutate } = useSWR(pageId, getJankenSpace);
+  const { data, mutate } = useSWR(pageId, getJankenSpace, { refreshInterval: 3000 });
 
   const title = data?.title || "じゃんけん広場";
 

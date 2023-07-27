@@ -7,7 +7,6 @@ const now = new Date();
 export const createdAt = () => firebase.firestore.Timestamp.fromDate(now);
 
 export const addJankenSpace = async (data: StoreData) => {
-  console.log("addJankenSpace", "start");
   try {
     const docRef = await addDoc(collection(db, "jankenSpace"), data);
     return docRef.id;

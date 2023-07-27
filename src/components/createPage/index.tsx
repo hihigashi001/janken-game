@@ -23,22 +23,22 @@ const CreatePage = () => {
   const { title, playerCount, handlers } = useCreateJankenSpace();
 
   return (
-    <div className="flex flex-col gap-8 p-8">
+    <div className="flex flex-col gap-8 p-4">
       <section className="flex flex-col gap-4">
-        <h2 className="text-2xl font-bold">サイト説明</h2>
-        <p className="text-lg">
+        <h2 className="text-lg font-bold">サイト説明</h2>
+        <p className="text-base">
           このサイトはオンラインでじゃんけんをするためのサイトです。誰でも簡単に無料でご利用頂けます。
         </p>
       </section>
       <section className="flex flex-col gap-4">
-        <h2 className="text-2xl font-bold">利用方法</h2>
-        <ol className="list-decimal list-outside ml-6 space-y-2 text-lg">
+        <h2 className="text-lg font-bold">利用方法</h2>
+        <ol className="list-decimal list-outside ml-6 space-y-2 text-base">
           <li>以下のフォームを入力してじゃんけん会場を作成する</li>
           <li>作成されたじゃんけん会場のURLをメールやSNS等で共有する</li>
           <li>じゃんけんをする（ぐー、ちょき、ぱーを選ぶだけ）</li>
         </ol>
       </section>
-      <p className="text-lg">簡単なのでまずは、やってみよ〜</p>
+      <p className="text-base">簡単なのでまずは、やってみよ〜</p>
       <Wrapper>
         <Title>じゃんけん会場作成</Title>
         <div className="flex flex-col space-y-2">
